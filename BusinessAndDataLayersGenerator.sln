@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessAndDataLayersGenerator", "BusinessAndDataLayersGenerator.csproj", "{D1123EC0-783A-48E9-9A7B-F2312F2BB83E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "ClassLibrary1\Generator.csproj", "{ECFFE80D-794A-4897-A04C-20B0B0619979}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1123EC0-783A-48E9-9A7B-F2312F2BB83E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1123EC0-783A-48E9-9A7B-F2312F2BB83E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1123EC0-783A-48E9-9A7B-F2312F2BB83E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1123EC0-783A-48E9-9A7B-F2312F2BB83E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F72D5E9-EA40-432A-B462-56D432772AF2}
+	EndGlobalSection
+EndGlobal
