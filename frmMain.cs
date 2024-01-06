@@ -105,7 +105,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
         private string GetDataLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
-            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, true).ToString();
+            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, cbDataAccess.Checked).ToString();
         }
         private string GetBusinessLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
@@ -140,6 +140,17 @@ namespace BuisnessAndDataLayer_Code_Generator
         {
             lblLayer.Text = "Business Layer";
             txtGeneratedCode.Text = strBusinessLayer;
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            lvColumns.Items.Clear();
+            txtColumnName.Clear();
+            txtTableName.Clear();
+            txtTableSingleName.Clear();
+
+            txtGeneratedCode.Clear();
+            txtTableName.Select();
         }
     }
 }

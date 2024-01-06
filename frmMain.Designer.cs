@@ -55,6 +55,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTableName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.cbDataAccess = new System.Windows.Forms.CheckBox();
+            this.btnReset = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +66,7 @@
             this.lblLayer.AutoSize = true;
             this.lblLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLayer.ForeColor = System.Drawing.Color.Orange;
-            this.lblLayer.Location = new System.Drawing.Point(828, 25);
+            this.lblLayer.Location = new System.Drawing.Point(1007, 25);
             this.lblLayer.Name = "lblLayer";
             this.lblLayer.Size = new System.Drawing.Size(91, 21);
             this.lblLayer.TabIndex = 33;
@@ -78,7 +80,7 @@
             this.btnDataLayer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnDataLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDataLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDataLayer.Location = new System.Drawing.Point(770, 56);
+            this.btnDataLayer.Location = new System.Drawing.Point(950, 56);
             this.btnDataLayer.Name = "btnDataLayer";
             this.btnDataLayer.Size = new System.Drawing.Size(97, 34);
             this.btnDataLayer.TabIndex = 31;
@@ -109,7 +111,7 @@
             this.txtGeneratedCode.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtGeneratedCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtGeneratedCode.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGeneratedCode.Location = new System.Drawing.Point(770, 96);
+            this.txtGeneratedCode.Location = new System.Drawing.Point(950, 96);
             this.txtGeneratedCode.MaxLength = 20;
             this.txtGeneratedCode.Multiline = true;
             this.txtGeneratedCode.Name = "txtGeneratedCode";
@@ -208,6 +210,7 @@
             this.lvColumns.Location = new System.Drawing.Point(17, 263);
             this.lvColumns.Name = "lvColumns";
             this.lvColumns.Size = new System.Drawing.Size(392, 227);
+            this.lvColumns.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvColumns.TabIndex = 28;
             this.lvColumns.TabStop = false;
             this.lvColumns.UseCompatibleStateImageBehavior = false;
@@ -255,7 +258,7 @@
             this.btnBusinessLayer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnBusinessLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBusinessLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBusinessLayer.Location = new System.Drawing.Point(884, 56);
+            this.btnBusinessLayer.Location = new System.Drawing.Point(1064, 56);
             this.btnBusinessLayer.Name = "btnBusinessLayer";
             this.btnBusinessLayer.Size = new System.Drawing.Size(97, 34);
             this.btnBusinessLayer.TabIndex = 32;
@@ -368,18 +371,48 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft New Tai Lue", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(121, 10);
+            this.label1.Location = new System.Drawing.Point(222, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(543, 43);
             this.label1.TabIndex = 21;
             this.label1.Text = "Generate Business And Data Layers";
+            // 
+            // cbDataAccess
+            // 
+            this.cbDataAccess.AutoSize = true;
+            this.cbDataAccess.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cbDataAccess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbDataAccess.Location = new System.Drawing.Point(800, 471);
+            this.cbDataAccess.Name = "cbDataAccess";
+            this.cbDataAccess.Size = new System.Drawing.Size(113, 19);
+            this.cbDataAccess.TabIndex = 34;
+            this.cbDataAccess.Text = "Data Access Class";
+            this.cbDataAccess.UseVisualStyleBackColor = true;
+            // 
+            // btnReset
+            // 
+            this.btnReset.BackColor = System.Drawing.Color.White;
+            this.btnReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
+            this.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReset.Location = new System.Drawing.Point(698, 410);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(67, 34);
+            this.btnReset.TabIndex = 35;
+            this.btnReset.TabStop = false;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // frmMain
             // 
             this.AcceptButton = this.btnAddColumn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 501);
+            this.ClientSize = new System.Drawing.Size(1229, 501);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.cbDataAccess);
             this.Controls.Add(this.lblLayer);
             this.Controls.Add(this.btnDataLayer);
             this.Controls.Add(this.btnGenerate);
@@ -436,6 +469,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTableName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox cbDataAccess;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 

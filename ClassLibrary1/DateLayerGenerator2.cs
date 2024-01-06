@@ -123,7 +123,7 @@ namespace Generator
 
             strUpdateFunction.Append("\n\tint rowsAffected=0;\n");
             strUpdateFunction.Append($"\n{_ConnectionLine()}\n");
-            strUpdateFunction.Append($"\n\tstring query = @\"UPDATE {TableName}\n\tSET{_UpdateQueryParameters(Columnslist)}\tWHERE {PkColumn.ColumnName} = @{PkColumn.ColumnName}\";\n");
+            strUpdateFunction.Append($"\n\tstring query = @\"UPDATE {TableName}\n\tSET{_UpdateQueryParameters(Columnslist, PkColumn)}\tWHERE {PkColumn.ColumnName} = @{PkColumn.ColumnName}\";\n");
             strUpdateFunction.Append($"\n{_CommandLine()}\n");
             strUpdateFunction.Append($"\n{_CommandParametars(Columnslist)}\n");
             strUpdateFunction.Append("\n\ttry {connection.Open(); rowsAffected = command.ExecuteNonQuery();}");

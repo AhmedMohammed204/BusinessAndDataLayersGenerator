@@ -77,16 +77,19 @@ namespace Generator
         {
             return "bool isFound = false;";
         }
-        private static string _UpdateQueryParameters(List<clsColumn> Columnslist)
+        private static string _UpdateQueryParameters(List<clsColumn> Columnslist, clsColumn ColumnToSkip = null)
         {
             StringBuilder sbQueryParameters = new StringBuilder();
 
             foreach (clsColumn Column in Columnslist)
             {
-                sbQueryParameters.Append($"\t{Column.ColumnName} = @{Column.ColumnName}\n");
+                if (Column == ColumnToSkip)
+                    continue;
+                sbQueryParameters.Append($"\t{Column.ColumnName} = @{Column.ColumnName},\n");
             }
 
-            return sbQueryParameters.ToString();
+
+            return sbQueryParameters.ToString().Remove(sbQueryParameters.Length - 2);
         }
         private static string _GetReaderDataWithCasting(List<clsColumn> Columnslist)
         {
