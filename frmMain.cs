@@ -50,7 +50,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         private string _CheckRadioButton()
         {
             if (rbNull.Checked) { return "null"; }
-            return "";
+            return null;
         }
         private void btnAddColumn_Click(object sender, EventArgs e)
         {
@@ -121,9 +121,9 @@ namespace BuisnessAndDataLayer_Code_Generator
                     continue;
                 string ColumnName = Row.Cells[0].Value.ToString();
                 string DataType = Row.Cells[1].Value.ToString();
-                bool IsNull = string.IsNullOrEmpty(Row.Cells[2].Value.ToString());
+                bool IsNull = Row.Cells[2].Value != null;
                 bool IsPK = Row.Cells[3].Value != null;
-                if (IsNull) HasPK = true;
+                if (IsPK) HasPK = true;
                 ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
             }
 
