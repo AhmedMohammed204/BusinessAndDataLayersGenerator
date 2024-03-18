@@ -28,20 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.lblLayer = new System.Windows.Forms.Label();
             this.btnDataLayer = new System.Windows.Forms.Button();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.txtGeneratedCode = new System.Windows.Forms.TextBox();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label7 = new System.Windows.Forms.Label();
             this.btnAddColumn = new System.Windows.Forms.Button();
             this.rbNotNull = new System.Windows.Forms.RadioButton();
             this.rbPK = new System.Windows.Forms.RadioButton();
-            this.lvColumns = new System.Windows.Forms.ListView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rbNull = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.txtColumnName = new System.Windows.Forms.TextBox();
@@ -57,7 +55,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbDataAccess = new System.Windows.Forms.CheckBox();
             this.btnReset = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DataType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsNull = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsPK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblLayer
@@ -97,7 +102,7 @@
             this.btnGenerate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnGenerate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGenerate.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerate.Location = new System.Drawing.Point(697, 456);
+            this.btnGenerate.Location = new System.Drawing.Point(721, 455);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(67, 34);
             this.btnGenerate.TabIndex = 29;
@@ -120,26 +125,6 @@
             this.txtGeneratedCode.Size = new System.Drawing.Size(226, 394);
             this.txtGeneratedCode.TabIndex = 30;
             this.txtGeneratedCode.TabStop = false;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "IsPK";
-            this.columnHeader4.Width = 52;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "IsNull";
-            this.columnHeader3.Width = 70;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Data Type";
-            this.columnHeader2.Width = 106;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 160;
             // 
             // label7
             // 
@@ -196,25 +181,20 @@
             this.rbPK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbPK.UseVisualStyleBackColor = true;
             // 
-            // lvColumns
+            // contextMenuStrip1
             // 
-            this.lvColumns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
-            this.lvColumns.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvColumns.HideSelection = false;
-            this.lvColumns.LabelEdit = true;
-            this.lvColumns.Location = new System.Drawing.Point(17, 263);
-            this.lvColumns.Name = "lvColumns";
-            this.lvColumns.Size = new System.Drawing.Size(392, 227);
-            this.lvColumns.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvColumns.TabIndex = 28;
-            this.lvColumns.TabStop = false;
-            this.lvColumns.UseCompatibleStateImageBehavior = false;
-            this.lvColumns.View = System.Windows.Forms.View.Details;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Image = global::BusinessAndDataLayersGenerator.Properties.Resources.CloseForm;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // rbNull
             // 
@@ -279,7 +259,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtColumnName);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft New Tai Lue", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(432, 263);
+            this.groupBox1.Location = new System.Drawing.Point(469, 262);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(247, 227);
             this.groupBox1.TabIndex = 27;
@@ -295,6 +275,8 @@
             this.cbColumnDataType.FormattingEnabled = true;
             this.cbColumnDataType.IntegralHeight = false;
             this.cbColumnDataType.Items.AddRange(new object[] {
+            "bool",
+            "byte",
             "char",
             "DateTime",
             "float",
@@ -396,7 +378,7 @@
             this.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReset.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(698, 410);
+            this.btnReset.Location = new System.Drawing.Point(722, 409);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(67, 34);
             this.btnReset.TabIndex = 35;
@@ -405,19 +387,57 @@
             this.btnReset.UseVisualStyleBackColor = false;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnName,
+            this.DataType,
+            this.IsNull,
+            this.IsPK});
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 276);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(451, 213);
+            this.dataGridView1.TabIndex = 36;
+            this.dataGridView1.TabStop = false;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.HeaderText = "ColumnName";
+            this.ColumnName.Name = "ColumnName";
+            // 
+            // DataType
+            // 
+            this.DataType.HeaderText = "DataType";
+            this.DataType.Name = "DataType";
+            // 
+            // IsNull
+            // 
+            this.IsNull.HeaderText = "IsNull";
+            this.IsNull.Name = "IsNull";
+            // 
+            // IsPK
+            // 
+            this.IsPK.HeaderText = "IsPK";
+            this.IsPK.Name = "IsPK";
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnAddColumn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1229, 501);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.cbDataAccess);
             this.Controls.Add(this.lblLayer);
             this.Controls.Add(this.btnDataLayer);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.txtGeneratedCode);
-            this.Controls.Add(this.lvColumns);
             this.Controls.Add(this.btnBusinessLayer);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
@@ -434,8 +454,10 @@
             this.Name = "frmMain";
             this.Text = "Generator";
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,15 +469,10 @@
         private System.Windows.Forms.Button btnDataLayer;
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.TextBox txtGeneratedCode;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnAddColumn;
         private System.Windows.Forms.RadioButton rbNotNull;
         private System.Windows.Forms.RadioButton rbPK;
-        private System.Windows.Forms.ListView lvColumns;
         private System.Windows.Forms.RadioButton rbNull;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtColumnName;
@@ -471,6 +488,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbDataAccess;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DataType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsNull;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsPK;
     }
 }
 

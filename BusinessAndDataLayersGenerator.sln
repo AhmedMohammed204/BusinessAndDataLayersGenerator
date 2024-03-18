@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessAndDataLayersGenera
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "ClassLibrary1\Generator.csproj", "{ECFFE80D-794A-4897-A04C-20B0B0619979}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "..\Setup2\Setup2.vdproj", "{C4F69CF9-0FE1-4BCB-B6C7-4FBE34D371B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECFFE80D-794A-4897-A04C-20B0B0619979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F69CF9-0FE1-4BCB-B6C7-4FBE34D371B1}.Debug|Any CPU.ActiveCfg = Debug
+		{C4F69CF9-0FE1-4BCB-B6C7-4FBE34D371B1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

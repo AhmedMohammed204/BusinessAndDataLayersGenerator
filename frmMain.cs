@@ -29,7 +29,7 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            cbColumnDataType.SelectedIndex = 3;
+            cbColumnDataType.SelectedItem = "int";
             rbPK.Select();
             txtTableName.Select();
             HasPK = false;
@@ -59,14 +59,10 @@ namespace BuisnessAndDataLayer_Code_Generator
                 MessageBox.Show("Sorry but you can't add an Empty column", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string strIsNull = _CheckRadioButton();
-            ListViewItem item = new ListViewItem(txtColumnName.Text);
-            item.SubItems.Add(cbColumnDataType.Text);
-            item.SubItems.Add(strIsNull);
-            item.SubItems.Add(rbPK.Checked ? "PK" : " ");
-            lvColumns.Items.Add(item);
-            AddToColumnsList(txtColumnName.Text, cbColumnDataType.Text, strIsNull);
 
+            string strIsNull = _CheckRadioButton();
+            dataGridView1.Rows.Add(txtColumnName.Text, cbColumnDataType.Text, strIsNull, rbPK.Checked ? "PK" : null);
+            
             txtColumnName.Text = string.Empty;
 
             rbNotNull.Select();
@@ -95,11 +91,13 @@ namespace BuisnessAndDataLayer_Code_Generator
                 return false;
             }
 
-            if (lvColumns.Items.Count == 0)
+            if (dataGridView1.Rows.Count <= 1 )
             {
-                MessageBox.Show("You can't Generate Without adding any column!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You can't Generate Without adding columns!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
+            
 
             return true;
         }
@@ -113,12 +111,27 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            if (!_IsValidToGenerate())
-            {
-                return;
-            }
+            
             TableName = txtTableName.Text;
             TableSinglName = txtTableSingleName.Text;
+
+            foreach (DataGridViewRow Row in dataGridView1.Rows)
+            {
+                if (Row.Cells[0].Value == null)
+                    continue;
+                string ColumnName = Row.Cells[0].Value.ToString();
+                string DataType = Row.Cells[1].Value.ToString();
+                bool IsNull = string.IsNullOrEmpty(Row.Cells[2].Value.ToString());
+                bool IsPK = Row.Cells[3].Value != null;
+                if (IsNull) HasPK = true;
+                ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
+            }
+
+            if (!_IsValidToGenerate())
+            {
+                ColumnsList.Clear();
+                return;
+            }
 
             strBusinessLayer = GetBusinessLayer(TableName, TableSinglName, ColumnsList);
             strDataLayer = GetDataLayer(TableName, TableSinglName, ColumnsList);
@@ -128,6 +141,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             btnBusinessLayer.Visible = true;
             btnDataLayer.Visible = true;
             lblLayer.Visible = true;
+            ColumnsList.Clear();
         }
 
         private void btnDataLayer_Click(object sender, EventArgs e)
@@ -144,13 +158,19 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            lvColumns.Items.Clear();
+            dataGridView1.Rows.Clear();
             txtColumnName.Clear();
             txtTableName.Clear();
             txtTableSingleName.Clear();
+            ColumnsList.Clear();
 
             txtGeneratedCode.Clear();
             txtTableName.Select();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.RemoveAt(dataGridView1.SelectedCells[0].RowIndex);
         }
     }
 }
