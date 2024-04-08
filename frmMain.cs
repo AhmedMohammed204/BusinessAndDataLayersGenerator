@@ -36,13 +36,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             ColumnsList = new List<clsColumn>();
         }
 
-        private void AddToColumnsList(string ColumnName, string ColumnDataType, string strIsNull)
-        {
-            bool isNull = string.IsNullOrEmpty(strIsNull) ? false : true;
-            bool isPK = rbPK.Checked;
-            if (isPK) HasPK = true;
-            ColumnsList.Add(new clsColumn(ColumnName, ColumnDataType, isNull, isPK));
-        }
+        
         private bool _IsValidColumn()
         {
             return !(string.IsNullOrEmpty(txtColumnName.Text));

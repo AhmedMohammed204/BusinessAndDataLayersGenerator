@@ -186,13 +186,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = global::BusinessAndDataLayersGenerator.Properties.Resources.CloseForm;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -226,7 +226,7 @@
             this.txtColumnName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtColumnName.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtColumnName.Location = new System.Drawing.Point(79, 61);
-            this.txtColumnName.MaxLength = 20;
+            this.txtColumnName.MaxLength = 500;
             this.txtColumnName.Name = "txtColumnName";
             this.txtColumnName.Size = new System.Drawing.Size(162, 20);
             this.txtColumnName.TabIndex = 2;
@@ -279,6 +279,7 @@
             "byte",
             "char",
             "DateTime",
+            "decimal",
             "float",
             "int",
             "string"});
@@ -313,7 +314,7 @@
             this.txtTableSingleName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTableSingleName.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTableSingleName.Location = new System.Drawing.Point(136, 179);
-            this.txtTableSingleName.MaxLength = 20;
+            this.txtTableSingleName.MaxLength = 500;
             this.txtTableSingleName.Name = "txtTableSingleName";
             this.txtTableSingleName.Size = new System.Drawing.Size(160, 20);
             this.txtTableSingleName.TabIndex = 1;
@@ -343,7 +344,7 @@
             this.txtTableName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTableName.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTableName.Location = new System.Drawing.Point(136, 128);
-            this.txtTableName.MaxLength = 20;
+            this.txtTableName.MaxLength = 500;
             this.txtTableName.Name = "txtTableName";
             this.txtTableName.Size = new System.Drawing.Size(160, 20);
             this.txtTableName.TabIndex = 0;
