@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BusinessAndDataLayersGenerator;
 using Generator;
 namespace BuisnessAndDataLayer_Code_Generator
 {
@@ -17,7 +19,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         {
             InitializeComponent();
         }
-
+        private bool AutoFillMode = false;
         public string TableName { get; set; }
         public string TableSinglName { get; set; }
         List<clsColumn> ColumnsList { get; set; }
@@ -26,14 +28,18 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private string strDataLayer { get; set; }
         private string strBusinessLayer { get; set; }
-
-        private void frmMain_Load(object sender, EventArgs e)
+        void _LoadData()
         {
             cbColumnDataType.SelectedItem = "int";
             rbPK.Select();
             txtTableName.Select();
             HasPK = false;
             ColumnsList = new List<clsColumn>();
+            
+        }
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            _LoadData();
         }
 
         
@@ -67,6 +73,10 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private bool _IsValidToGenerate()
         {
+            if(AutoFillMode)
+            {
+                return true;
+            }
             if (!HasPK)
             {
                 MessageBox.Show("You can't Generate Without adding Primary Key!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -108,25 +118,32 @@ namespace BuisnessAndDataLayer_Code_Generator
             
             TableName = txtTableName.Text;
             TableSinglName = txtTableSingleName.Text;
-
-            foreach (DataGridViewRow Row in dataGridView1.Rows)
+            if(ColumnsList.Count == 0)
             {
-                if (Row.Cells[0].Value == null)
-                    continue;
-                string ColumnName = Row.Cells[0].Value.ToString();
-                string DataType = Row.Cells[1].Value.ToString();
-                bool IsNull = Row.Cells[2].Value != null;
-                bool IsPK = Row.Cells[3].Value != null;
-                if (IsPK) HasPK = true;
-                ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
-            }
 
+                foreach (DataGridViewRow Row in dataGridView1.Rows)
+                {
+                    if (Row.Cells[0].Value == null)
+                        continue;
+                    string ColumnName = Row.Cells[0].Value.ToString();
+                    string DataType = Row.Cells[1].Value.ToString();
+                    bool IsNull = Row.Cells[2].Value != null;
+                    bool IsPK = Row.Cells[3].Value != null;
+                    if (IsPK) HasPK = true;
+                    ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
+                }
+
+            }
             if (!_IsValidToGenerate())
             {
                 ColumnsList.Clear();
                 return;
             }
-
+            if(clsColumn.GetPrimaryKeyColumn(ColumnsList) == null)
+            {
+                MessageBox.Show("Please put a PK");
+                return;
+            }
             strBusinessLayer = GetBusinessLayer(TableName, TableSinglName, ColumnsList);
             strDataLayer = GetDataLayer(TableName, TableSinglName, ColumnsList);
 
@@ -152,6 +169,7 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private void btnReset_Click(object sender, EventArgs e)
         {
+            AutoFillMode = false;
             dataGridView1.Rows.Clear();
             txtColumnName.Clear();
             txtTableName.Clear();
@@ -162,9 +180,139 @@ namespace BuisnessAndDataLayer_Code_Generator
             txtTableName.Select();
         }
 
+        
+        private void AutoFill(clsDatabaseData dbData)
+        {
+            string ConnectionString = $"Server=.;Database={dbData.DataBaseName};User Id={dbData.Username};Password={dbData.Password};";
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, " +
+                    $"IS_NULLABLE, COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, 'IsIdentity') AS IS_IDENTITY, " +
+                    $"COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, 'IsComputed') AS IS_COMPUTED " +
+                    $"FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{dbData.TableName}'", connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                ColumnsList.Clear();
+                while (reader.Read())
+                {
+                    string columnName = reader["COLUMN_NAME"].ToString();
+                    string dataType = reader["DATA_TYPE"].ToString();
+                    bool isNullable = reader["IS_NULLABLE"].ToString() == "YES";
+                    bool isIdentity = Convert.ToBoolean(reader["IS_IDENTITY"]);
+                    bool isComputed = Convert.ToBoolean(reader["IS_COMPUTED"]);
+
+                    dataType = clsDatabaseData.ConvertDataTypeFromSQL(dataType);
+
+                    ColumnsList.Add(new clsColumn(columnName, dataType, isNullable, isIdentity));
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+        }
+        void FillDataGrid()
+        {
+            dataGridView1.Rows.Clear();
+            string IsPK = default;
+            string IsNull = default;
+            foreach (clsColumn Column in ColumnsList)
+            {
+                IsPK   = Column.IsPK ? "PK" : "";
+                IsNull = Column.AllowNull ? "null" : "";
+                dataGridView1.Rows.Add(Column.ColumnName, Column.ColumnDataType, IsNull, IsPK);
+            }
+            
+        }
+        void PerformTableSelected(bool IsFound, clsDatabaseData dbData)
+        {
+            if (!IsFound)
+            {
+                AutoFillMode = false;
+                return;
+            }
+            dataGridView1.Rows.Clear();
+            AutoFillMode = true;
+            txtTableName.Text = dbData.TableName;
+            txtTableSingleName.Text = dbData.TableSingleName;
+            AutoFill(dbData);
+            FillDataGrid();
+
+        }
+        private void btnAutoFill_Click(object sender, EventArgs e)
+        {
+            frmAutoFill frm = new frmAutoFill();
+            frm.TableSelected += PerformTableSelected;
+            frm.ShowDialog();
+        }
+
+        
+        void DisabilAllToolStrips()
+        {
+            deleteToolStripMenuItem.Enabled = false;
+            setPKToolStripMenuItem.Enabled = false;
+            removePKToolStripMenuItem.Enabled = false;
+        }
+        void LoadContextMenuStrip()
+        {
+            if(!IsDataGridHasRows())
+            {
+                DisabilAllToolStrips();
+                return;
+            }
+            deleteToolStripMenuItem.Enabled = true;
+            DataGridViewRow dataRow = dataGridView1.CurrentRow;
+            
+            if (string.IsNullOrEmpty(dataRow?.Cells[dataRow.Cells.Count - 1]?.Value.ToString()))
+            {
+                setPKToolStripMenuItem.Enabled = true;
+                removePKToolStripMenuItem.Enabled = false;
+                return;
+            }
+            setPKToolStripMenuItem.Enabled = false;
+            removePKToolStripMenuItem.Enabled = true;
+
+        }
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            LoadContextMenuStrip();
+        }
+
+        bool IsDataGridHasRows()
+        {
+            if (dataGridView1.Rows.Count <= 1)
+                return false; 
+            return true;
+        }
+        private void removePKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!IsDataGridHasRows())
+                return;
+            dataGridView1.CurrentRow.Cells[dataGridView1.Rows[0].Cells.Count - 1].Value = "";
+            clsColumn.SetRemovePKColumn(ColumnsList, dataGridView1.CurrentRow.Cells[0].Value.ToString(), false);
+
+        }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.RemoveAt(dataGridView1.SelectedCells[0].RowIndex);
+
+            if (!IsDataGridHasRows())
+                return;
+            string ColumnName = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            ColumnsList.Remove(clsColumn.Find(ColumnsList, ColumnName));
+            FillDataGrid();
         }
+
+        private void setPKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!IsDataGridHasRows())
+                return;
+            dataGridView1.CurrentRow.Cells[dataGridView1.Rows[0].Cells.Count - 1].Value = "PK";
+            clsColumn.SetRemovePKColumn(ColumnsList, dataGridView1.CurrentRow.Cells[0].Value.ToString());
+        }
+
     }
 }

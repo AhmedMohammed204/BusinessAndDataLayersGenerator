@@ -27,5 +27,27 @@ namespace Generator
 
             return null;
         }
+
+        public static clsColumn Find(List<clsColumn> Columnslist, string ColumnName)
+        {
+            foreach (clsColumn Column in Columnslist)
+            {
+                if(Column.ColumnName == ColumnName)
+                    return Column;
+            }
+
+            return null;
+        }
+        public static bool SetRemovePKColumn(List<clsColumn> Columnslist, string ColumnName, bool SetPK = true)
+        {
+            clsColumn PKColumn = Find(Columnslist, ColumnName);
+            if (PKColumn != null)
+            {
+                PKColumn.IsPK = SetPK;
+                return true;
+            }
+
+            return false;
+        }
     }
 }
