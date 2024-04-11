@@ -181,39 +181,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
 
         
-        private void AutoFill(clsDatabaseData dbData)
-        {
-            string ConnectionString = $"Server=.;Database={dbData.DataBaseName};User Id={dbData.Username};Password={dbData.Password};";
-            SqlConnection connection = new SqlConnection(ConnectionString);
-            try
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, " +
-                    $"IS_NULLABLE, COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, 'IsIdentity') AS IS_IDENTITY, " +
-                    $"COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, 'IsComputed') AS IS_COMPUTED " +
-                    $"FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{dbData.TableName}'", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-                ColumnsList.Clear();
-                while (reader.Read())
-                {
-                    string columnName = reader["COLUMN_NAME"].ToString();
-                    string dataType = reader["DATA_TYPE"].ToString();
-                    bool isNullable = reader["IS_NULLABLE"].ToString() == "YES";
-                    bool isIdentity = Convert.ToBoolean(reader["IS_IDENTITY"]);
-                    bool isComputed = Convert.ToBoolean(reader["IS_COMPUTED"]);
 
-                    dataType = clsDatabaseData.ConvertDataTypeFromSQL(dataType);
-
-                    ColumnsList.Add(new clsColumn(columnName, dataType, isNullable, isIdentity));
-                }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-
-        }
         void FillDataGrid()
         {
             dataGridView1.Rows.Clear();
@@ -238,7 +206,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             AutoFillMode = true;
             txtTableName.Text = dbData.TableName;
             txtTableSingleName.Text = dbData.TableSingleName;
-            AutoFill(dbData);
+            clsDatabaseData.ColumnsListAutoFill(dbData, ColumnsList);
             FillDataGrid();
 
         }
@@ -314,5 +282,14 @@ namespace BuisnessAndDataLayer_Code_Generator
             clsColumn.SetRemovePKColumn(ColumnsList, dataGridView1.CurrentRow.Cells[0].Value.ToString());
         }
 
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void cbDataAccess_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

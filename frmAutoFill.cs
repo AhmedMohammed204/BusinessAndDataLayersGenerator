@@ -36,7 +36,7 @@ namespace BusinessAndDataLayersGenerator
             }
 
         }
-        private void LoadTables(string ConnectionString)
+        public void LoadTables(string ConnectionString )
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {

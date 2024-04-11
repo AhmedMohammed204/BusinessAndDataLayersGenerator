@@ -40,6 +40,8 @@
             this.rbPK = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setPKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removePKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rbNull = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.txtColumnName = new System.Windows.Forms.TextBox();
@@ -61,8 +63,7 @@
             this.IsNull = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsPK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAutoFill = new System.Windows.Forms.Button();
-            this.setPKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removePKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnBack = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -70,11 +71,12 @@
             // 
             // lblLayer
             // 
-            this.lblLayer.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLayer.AutoSize = true;
             this.lblLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLayer.ForeColor = System.Drawing.Color.Orange;
-            this.lblLayer.Location = new System.Drawing.Point(1007, 25);
+            this.lblLayer.Location = new System.Drawing.Point(929, 108);
             this.lblLayer.Name = "lblLayer";
             this.lblLayer.Size = new System.Drawing.Size(91, 21);
             this.lblLayer.TabIndex = 33;
@@ -83,12 +85,14 @@
             // 
             // btnDataLayer
             // 
+            this.btnDataLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDataLayer.BackColor = System.Drawing.Color.White;
             this.btnDataLayer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
             this.btnDataLayer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnDataLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDataLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDataLayer.Location = new System.Drawing.Point(950, 56);
+            this.btnDataLayer.Location = new System.Drawing.Point(872, 139);
             this.btnDataLayer.Name = "btnDataLayer";
             this.btnDataLayer.Size = new System.Drawing.Size(97, 34);
             this.btnDataLayer.TabIndex = 31;
@@ -116,16 +120,18 @@
             // 
             // txtGeneratedCode
             // 
+            this.txtGeneratedCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtGeneratedCode.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtGeneratedCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtGeneratedCode.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGeneratedCode.Location = new System.Drawing.Point(950, 96);
+            this.txtGeneratedCode.Location = new System.Drawing.Point(874, 179);
             this.txtGeneratedCode.MaxLength = 20;
             this.txtGeneratedCode.Multiline = true;
             this.txtGeneratedCode.Name = "txtGeneratedCode";
             this.txtGeneratedCode.ReadOnly = true;
             this.txtGeneratedCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGeneratedCode.Size = new System.Drawing.Size(226, 394);
+            this.txtGeneratedCode.Size = new System.Drawing.Size(226, 311);
             this.txtGeneratedCode.TabIndex = 30;
             this.txtGeneratedCode.TabStop = false;
             // 
@@ -191,16 +197,30 @@
             this.setPKToolStripMenuItem,
             this.removePKToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = global::BusinessAndDataLayersGenerator.Properties.Resources.CloseForm;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // setPKToolStripMenuItem
+            // 
+            this.setPKToolStripMenuItem.Name = "setPKToolStripMenuItem";
+            this.setPKToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.setPKToolStripMenuItem.Text = "Set PK";
+            this.setPKToolStripMenuItem.Click += new System.EventHandler(this.setPKToolStripMenuItem_Click);
+            // 
+            // removePKToolStripMenuItem
+            // 
+            this.removePKToolStripMenuItem.Name = "removePKToolStripMenuItem";
+            this.removePKToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.removePKToolStripMenuItem.Text = "Remove PK";
+            this.removePKToolStripMenuItem.Click += new System.EventHandler(this.removePKToolStripMenuItem_Click);
             // 
             // rbNull
             // 
@@ -239,12 +259,14 @@
             // 
             // btnBusinessLayer
             // 
+            this.btnBusinessLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBusinessLayer.BackColor = System.Drawing.Color.White;
             this.btnBusinessLayer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
             this.btnBusinessLayer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnBusinessLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBusinessLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBusinessLayer.Location = new System.Drawing.Point(1064, 56);
+            this.btnBusinessLayer.Location = new System.Drawing.Point(986, 139);
             this.btnBusinessLayer.Name = "btnBusinessLayer";
             this.btnBusinessLayer.Size = new System.Drawing.Size(97, 34);
             this.btnBusinessLayer.TabIndex = 32;
@@ -360,7 +382,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft New Tai Lue", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(222, 10);
+            this.label1.Location = new System.Drawing.Point(184, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(543, 43);
             this.label1.TabIndex = 21;
@@ -371,12 +393,13 @@
             this.cbDataAccess.AutoSize = true;
             this.cbDataAccess.Cursor = System.Windows.Forms.Cursors.Default;
             this.cbDataAccess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbDataAccess.Location = new System.Drawing.Point(829, 471);
+            this.cbDataAccess.Location = new System.Drawing.Point(751, 370);
             this.cbDataAccess.Name = "cbDataAccess";
             this.cbDataAccess.Size = new System.Drawing.Size(113, 19);
             this.cbDataAccess.TabIndex = 34;
             this.cbDataAccess.Text = "Data Access Class";
             this.cbDataAccess.UseVisualStyleBackColor = true;
+            this.cbDataAccess.CheckedChanged += new System.EventHandler(this.cbDataAccess_CheckedChanged);
             // 
             // btnReset
             // 
@@ -448,26 +471,26 @@
             this.btnAutoFill.UseVisualStyleBackColor = false;
             this.btnAutoFill.Click += new System.EventHandler(this.btnAutoFill_Click);
             // 
-            // setPKToolStripMenuItem
+            // btnBack
             // 
-            this.setPKToolStripMenuItem.Name = "setPKToolStripMenuItem";
-            this.setPKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.setPKToolStripMenuItem.Text = "Set PK";
-            this.setPKToolStripMenuItem.Click += new System.EventHandler(this.setPKToolStripMenuItem_Click);
-            // 
-            // removePKToolStripMenuItem
-            // 
-            this.removePKToolStripMenuItem.Name = "removePKToolStripMenuItem";
-            this.removePKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.removePKToolStripMenuItem.Text = "Remove PK";
-            this.removePKToolStripMenuItem.Click += new System.EventHandler(this.removePKToolStripMenuItem_Click);
+            this.btnBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBack.Location = new System.Drawing.Point(989, 10);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(152, 42);
+            this.btnBack.TabIndex = 38;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmMain
             // 
             this.AcceptButton = this.btnAddColumn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1229, 501);
+            this.ClientSize = new System.Drawing.Size(1153, 501);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAutoFill);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnReset);
@@ -536,6 +559,7 @@
         private System.Windows.Forms.Button btnAutoFill;
         private System.Windows.Forms.ToolStripMenuItem setPKToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removePKToolStripMenuItem;
+        private System.Windows.Forms.Button btnBack;
     }
 }
 
