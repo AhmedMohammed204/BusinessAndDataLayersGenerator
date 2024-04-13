@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Generator;
+using System.Data.Common;
 
 namespace BusinessAndDataLayersGenerator
 {
@@ -50,6 +51,7 @@ namespace BusinessAndDataLayersGenerator
                 case "datetime":
                 case "datetime1":
                 case "datetime2":
+                case "smalldatetime":
                     return "DateTime";
                 case "decimal":
                 case "money":
@@ -128,11 +130,14 @@ namespace BusinessAndDataLayersGenerator
                 {
                     connection.Open();
                     DataTable schema = connection.GetSchema("Databases");
+
+
                     foreach (DataRow row in schema.Rows)
                     {
                         string databaseName = row.Field<string>("database_name");
                         list.Add (databaseName);
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -175,12 +180,12 @@ namespace BusinessAndDataLayersGenerator
 
             return list;
         }
-        public static void FillcbDatabase(List<string> list, ComboBox cbDatabase)
+        public static void Fill_CB(List<string> list, ComboBox CB)
         {
-            cbDatabase.Items.Clear();
+            CB.Items.Clear();
             foreach (string Database in list)
             {
-                cbDatabase.Items.Add(Database);
+                CB.Items.Add(Database);
             }
         }
     }

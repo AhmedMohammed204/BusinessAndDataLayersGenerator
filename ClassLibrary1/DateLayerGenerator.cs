@@ -6,7 +6,18 @@ namespace Generator
     public static partial class clsGenerateDataLayer
     {
         //Private Members
+        internal static bool IsReferenceType(string DataType)
+        {
+            switch(DataType)
+            {
+                case "string":
+                case "DateTime":
+                    return true;
+                default:
+                    return false;
 
+            }
+        }
         internal static string _GetFunctionProperties(List<clsColumn> Columnslist, string Prefix = "", bool ClassFileds = false, clsColumn ColumnToSkip = null, char Suffix = ',', bool AddThis = true, bool SpaceAfterPrefix = false)
         {
 
@@ -17,7 +28,7 @@ namespace Generator
                 {
                     if (property == ColumnToSkip)
                         continue;
-                    Properties += $"{(SpaceAfterPrefix ? $"{Prefix} " : Prefix)}{(AddThis ? "this." : "")}{property.ColumnName}{Suffix} ";
+                    Properties += $"{(SpaceAfterPrefix ? $"{Prefix} " : Prefix)}{(AddThis ? "this." : "")}{property.ColumnName}{(property.AllowNull && !IsReferenceType(property.ColumnDataType)? "?": "")}{Suffix} ";
                 }
             }
             else
@@ -37,7 +48,7 @@ namespace Generator
             string Parameter = "";
             if (Column.AllowNull)
             {
-                Parameter += $"\n\tif(string.IsNullOrEmpty({(Column.ColumnDataType == "string" ? Column.ColumnName : $"{Column.ColumnName}.ToString()")}))\n\t\tcommand.Parameters.AddWithValue(\"@{Column.ColumnName}\", DBNull.Value );\n\telse\n\t\tcommand.Parameters.AddWithValue(\"@{Column.ColumnName}\", {Column.ColumnName} );";
+                Parameter += $"\n\tif({(Column.ColumnName)} == null)\n\t\tcommand.Parameters.AddWithValue(\"@{Column.ColumnName}\", DBNull.Value );\n\telse\n\t\tcommand.Parameters.AddWithValue(\"@{Column.ColumnName}\", {Column.ColumnName} );";
             }
             else
             {
@@ -59,17 +70,16 @@ namespace Generator
         }
         private static string _ConnectionLine()
         {
-            return "\tSqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);";
+            return "\tSqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString)";
         }
         private static string _CommandLine()
         {
-            return "\tSqlCommand command = new SqlCommand(query, connection);";
+            return "\tSqlCommand command = new SqlCommand(query, connection)";
         }
         private static string _CathcAndFinallyLines()
         {
             StringBuilder stbCathcAndFinally = new StringBuilder();
-            stbCathcAndFinally.Append("\n\tcatch (Exception ex) {}");
-            stbCathcAndFinally.Append("\n\tfinally{ connection.Close(); }\n");
+            stbCathcAndFinally.Append("\n\tcatch (Exception ex) {clsErrorHandling.HandleError(ex);}");
 
             return stbCathcAndFinally.ToString();
         }

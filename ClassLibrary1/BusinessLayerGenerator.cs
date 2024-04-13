@@ -12,7 +12,7 @@ namespace Generator
 
         private static string _ColumnFiled(clsColumn Column, bool IsPrivate = false)
         {
-            return $"{(IsPrivate ? "private" : "public")} {Column.ColumnDataType} {Column.ColumnName} {{get; set;}}";
+            return $"{(IsPrivate ? "private" : "public")} {Column.ColumnDataType}{(Column.AllowNull && !clsGenerateDataLayer.IsReferenceType(Column.ColumnDataType)? "?":"") } {Column.ColumnName} {{get; set;}}";
         }
         private static string _ColumnsFileds(List<clsColumn> Columns)
         {
@@ -167,11 +167,11 @@ namespace Generator
             return sbFileds.ToString();
         }
 
-        public static string Generate(string TableName, string TableSinglName, List<clsColumn> Columns)
+        public static string Generate(string TableName, string TableSinglName, List<clsColumn> Columns, string DatabaseName)
         {
             StringBuilder sbBusinessLayer = new StringBuilder();
 
-            sbBusinessLayer.AppendLine($"using System;\nusing System.Data;\nusing {TableName}DataAccessLayer;");
+            sbBusinessLayer.AppendLine($"using System;\nusing System.Data;\nusing {DatabaseName}DataAccessLayer;");
             sbBusinessLayer.AppendLine($"namespace {TableName}BusinessLayer\n{{\n");
             sbBusinessLayer.AppendLine($"public class cls{TableSinglName}\n{{");
 

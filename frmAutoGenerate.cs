@@ -14,6 +14,7 @@ namespace BusinessAndDataLayersGenerator
 {
     public partial class frmAutoGenerate : Form
     {
+        
         public frmAutoGenerate()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace BusinessAndDataLayersGenerator
             List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
             if (list == null)
                 return;
-            clsDatabaseData.FillcbDatabase(list, cbDatabase);
+            clsDatabaseData.Fill_CB(list, cbDatabase);
 
         }
         private void btnFindDatabase_Click(object sender, EventArgs e)
@@ -38,38 +39,54 @@ namespace BusinessAndDataLayersGenerator
         void CreateBusinessLayerFile(string TableName)
         {
             string FilePath = $@"{txtBusinessLayer.Text}/cls{TableSingleName}.cs";
-            string BusinessClassTxt = clsGenerateBusinessLayer.Generate(TableName, TableSingleName, ColumnsList);
+            string BusinessClassTxt = clsGenerateBusinessLayer.Generate(TableName, TableSingleName, ColumnsList, cbDatabase.Text);
 
             File.WriteAllText(FilePath, BusinessClassTxt);
         }
         void CreateDataAccessLayerFile(string TableName)
         {
             string FilePath = $@"{txtDataLayer.Text}/cls{TableSingleName}DataAccessLayer.cs";
-            string DataAccessClassTxt = clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, UsingDataAccessClass).ToString();
+            string DataAccessClassTxt = clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, cbDatabase.Text, UsingDataAccessClass).ToString();
             UsingDataAccessClass = false;
             File.WriteAllText(FilePath, DataAccessClassTxt);
         }
-        void PerformColumnsList(string TableName)
+        void PerformColumnsList(string TableName, List<string> FilesNames)
         {
             ColumnsList = new List<clsColumn>();
             clsDatabaseData.ColumnsListAutoFill(new clsDatabaseData(cbDatabase.Text, TableName, txtUsername.Text, txtPassword.Text), ColumnsList);
+
+            clsColumn PKColumn = null;
+
+
             if (clsColumn.GetPrimaryKeyColumn(ColumnsList) == null)
             {
-                ColumnsList[0].IsPK = true;
+                PKColumn = ColumnsList[0];
+                PKColumn.IsPK = true;
+            }else
+            {
+                PKColumn = clsColumn.GetPrimaryKeyColumn(ColumnsList);
             }
-            clsColumn PKColumn = clsColumn.GetPrimaryKeyColumn(ColumnsList);
+
+
             TableSingleName = PKColumn.ColumnName.Substring(0, PKColumn.ColumnName.Length - 2);
+            int FileNameReptedTimes = FilesNames.Count(F => F == TableSingleName);
+            if (FileNameReptedTimes > 0)
+            {
+                TableSingleName = TableName;
+            }
+
+            FilesNames.Add(TableSingleName);
 
         } 
         void CreateAllFiles()
         {
             List<string> Tables = clsDatabaseData.GetAllTables(cbDatabase.Text, txtUsername.Text, txtPassword.Text);
-
+            List<string> FilesNames = new List<string>();
             int TotalFiles = 0;
             foreach (string Table in Tables)
             {
                 TotalFiles++;
-                PerformColumnsList(Table);
+                PerformColumnsList(Table, FilesNames);
                 CreateBusinessLayerFile(Table);
                 CreateDataAccessLayerFile(Table);
             }
@@ -79,9 +96,28 @@ namespace BusinessAndDataLayersGenerator
         {
             CreateAllFiles();
         }
+        bool IsReadyToGenerate()
+        {
+            if(string.IsNullOrEmpty(txtBusinessLayer.Text))
+            {
+                MessageBox.Show("You have to put a business layer path");
+                txtBusinessLayer.Focus();
+                return false;
+            }
 
+            if(string.IsNullOrEmpty(txtDataLayer.Text))
+            {
+                MessageBox.Show("You have to put a data access path");
+                txtDataLayer.Focus();
+                return false;
+            }
+
+            return true;
+        }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            if (!IsReadyToGenerate())
+                return;
             Generate();
         }
         void LoadData()

@@ -64,6 +64,8 @@
             this.IsPK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAutoFill = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
+            this.txtDatabaseName = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -484,12 +486,34 @@
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
+            // txtDatabaseName
+            // 
+            this.txtDatabaseName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDatabaseName.Font = new System.Drawing.Font("Microsoft New Tai Lue", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDatabaseName.Location = new System.Drawing.Point(136, 221);
+            this.txtDatabaseName.MaxLength = 500;
+            this.txtDatabaseName.Name = "txtDatabaseName";
+            this.txtDatabaseName.Size = new System.Drawing.Size(160, 20);
+            this.txtDatabaseName.TabIndex = 39;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(14, 224);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(102, 17);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "Database Name";
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnAddColumn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 501);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtDatabaseName);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAutoFill);
             this.Controls.Add(this.dataGridView1);
@@ -560,6 +584,8 @@
         private System.Windows.Forms.ToolStripMenuItem setPKToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removePKToolStripMenuItem;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.TextBox txtDatabaseName;
+        private System.Windows.Forms.Label label8;
     }
 }
 

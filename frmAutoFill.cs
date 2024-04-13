@@ -16,32 +16,12 @@ namespace BusinessAndDataLayersGenerator
             InitializeComponent();
         }
         
-        public void LoadTables(string ConnectionString )
-        {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    DataTable schema = connection.GetSchema("Tables");
-                    cbTable.Items.Clear();
-                    foreach (DataRow row in schema.Rows)
-                    {
-                        string tableName = row.Field<string>("TABLE_NAME");
-                        cbTable.Items.Add(tableName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
-        }
 
         void _LoadData()
         {
-            string ConnectionString = $"Server=.;Database={cbDatabase.Text};User Id={txtUsername.Text};Password={txtPassword.Text};";
-            LoadTables(ConnectionString);
+
+            List<string> list = clsDatabaseData.GetAllTables(cbDatabase.Text,txtUsername.Text, txtPassword.Text);
+            clsDatabaseData.Fill_CB(list, cbTable);
         }
 
         private void frmAutoFill_Load(object sender, EventArgs e)
@@ -103,7 +83,7 @@ namespace BusinessAndDataLayersGenerator
         private void btnFindDatabase_Click(object sender, EventArgs e)
         {
             List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
-            clsDatabaseData.FillcbDatabase(list, cbDatabase);
+            clsDatabaseData.Fill_CB(list, cbDatabase);
         }
     }
 }

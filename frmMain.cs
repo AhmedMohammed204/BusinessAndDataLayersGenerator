@@ -101,17 +101,24 @@ namespace BuisnessAndDataLayer_Code_Generator
                 return false;
             }
 
-            
+            if(string.IsNullOrEmpty(txtDatabaseName.Text))
+            {
+                MessageBox.Show("You can't Generate Without adding Database name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
+            }
+
+
 
             return true;
         }
         private string GetDataLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
-            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, cbDataAccess.Checked).ToString();
+            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList,txtDatabaseName.Text, cbDataAccess.Checked).ToString();
         }
         private string GetBusinessLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
-            return clsGenerateBusinessLayer.Generate(TableName, TableSingleName, ColumnsList).ToString();
+            return clsGenerateBusinessLayer.Generate(TableName, TableSingleName, ColumnsList, txtDatabaseName.Text).ToString();
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
