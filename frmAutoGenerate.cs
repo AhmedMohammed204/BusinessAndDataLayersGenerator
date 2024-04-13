@@ -14,6 +14,7 @@ namespace BusinessAndDataLayersGenerator
 {
     public partial class frmAutoGenerate : Form
     {
+        
         public frmAutoGenerate()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace BusinessAndDataLayersGenerator
             List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
             if (list == null)
                 return;
-            clsDatabaseData.FillcbDatabase(list, cbDatabase);
+            clsDatabaseData.Fill_CB(list, cbDatabase);
 
         }
         private void btnFindDatabase_Click(object sender, EventArgs e)
@@ -49,27 +50,43 @@ namespace BusinessAndDataLayersGenerator
             UsingDataAccessClass = false;
             File.WriteAllText(FilePath, DataAccessClassTxt);
         }
-        void PerformColumnsList(string TableName)
+        void PerformColumnsList(string TableName, List<string> FilesNames)
         {
             ColumnsList = new List<clsColumn>();
             clsDatabaseData.ColumnsListAutoFill(new clsDatabaseData(cbDatabase.Text, TableName, txtUsername.Text, txtPassword.Text), ColumnsList);
+
+            clsColumn PKColumn = null;
+
+
             if (clsColumn.GetPrimaryKeyColumn(ColumnsList) == null)
             {
-                ColumnsList[0].IsPK = true;
+                PKColumn = ColumnsList[0];
+                PKColumn.IsPK = true;
+            }else
+            {
+                PKColumn = clsColumn.GetPrimaryKeyColumn(ColumnsList);
             }
-            clsColumn PKColumn = clsColumn.GetPrimaryKeyColumn(ColumnsList);
+
+
             TableSingleName = PKColumn.ColumnName.Substring(0, PKColumn.ColumnName.Length - 2);
+            int FileNameReptedTimes = FilesNames.Count(F => F == TableSingleName);
+            if (FileNameReptedTimes > 0)
+            {
+                TableSingleName = TableName;
+            }
+
+            FilesNames.Add(TableSingleName);
 
         } 
         void CreateAllFiles()
         {
             List<string> Tables = clsDatabaseData.GetAllTables(cbDatabase.Text, txtUsername.Text, txtPassword.Text);
-
+            List<string> FilesNames = new List<string>();
             int TotalFiles = 0;
             foreach (string Table in Tables)
             {
                 TotalFiles++;
-                PerformColumnsList(Table);
+                PerformColumnsList(Table, FilesNames);
                 CreateBusinessLayerFile(Table);
                 CreateDataAccessLayerFile(Table);
             }
