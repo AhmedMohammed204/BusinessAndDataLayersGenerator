@@ -121,7 +121,7 @@ namespace BusinessAndDataLayersGenerator
                 return null;
 
             List<string> list = new List<string>();
-            string ConnectionString = $"Server=.;Database=DVLD_database;User Id={Username};Password={Password};";
+            string ConnectionString = $"Server=.;User Id={Username};Password={Password};";
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 try
@@ -175,10 +175,13 @@ namespace BusinessAndDataLayersGenerator
 
             return list;
         }
-
-        //public static Dictionary<string, Dictionary<string, string> > GetBusinessAndDataLayersForDataBase()
-        //{
-        //    Dictionary<, string> DictLayers
-        //}
+        public static void FillcbDatabase(List<string> list, ComboBox cbDatabase)
+        {
+            cbDatabase.Items.Clear();
+            foreach (string Database in list)
+            {
+                cbDatabase.Items.Add(Database);
+            }
+        }
     }
 }

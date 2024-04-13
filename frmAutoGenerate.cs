@@ -21,22 +21,14 @@ namespace BusinessAndDataLayersGenerator
         List<clsColumn> ColumnsList;
         string TableSingleName;
         bool UsingDataAccessClass = true;
-        void FillcbDatabase(List<string> list)
-        {
-            cbDatabase.Items.Clear();
-            foreach (string Database in list)
-            {
-                cbDatabase.Items.Add(Database);
-            }
-        }
+        
         void FindDatabase()
         {
 
-            List<string> list = new List<string>();
-            list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
+            List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
             if (list == null)
                 return;
-            FillcbDatabase(list);
+            clsDatabaseData.FillcbDatabase(list, cbDatabase);
 
         }
         private void btnFindDatabase_Click(object sender, EventArgs e)
@@ -103,10 +95,6 @@ namespace BusinessAndDataLayersGenerator
             LoadData();
         }
 
-        private void guna2ImageButton1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnBack_Click(object sender, EventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -14,28 +15,7 @@ namespace BusinessAndDataLayersGenerator
         {
             InitializeComponent();
         }
-        void LoadDatabases(string ConnectionString)
-        {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    DataTable schema = connection.GetSchema("Databases");
-                    cbDatabase.Items.Clear();
-                    foreach (DataRow row in schema.Rows)
-                    {
-                        string databaseName = row.Field<string>("database_name");
-                        cbDatabase.Items.Add(databaseName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
-
-        }
+        
         public void LoadTables(string ConnectionString )
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -122,8 +102,8 @@ namespace BusinessAndDataLayersGenerator
 
         private void btnFindDatabase_Click(object sender, EventArgs e)
         {
-            string ConnectionString = $"Server=.;Database=DVLD_database;User Id={txtUsername.Text};Password={txtPassword.Text};";
-            LoadDatabases(ConnectionString);
+            List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
+            clsDatabaseData.FillcbDatabase(list, cbDatabase);
         }
     }
 }
