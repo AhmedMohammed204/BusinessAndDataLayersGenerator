@@ -95,6 +95,8 @@
             this.btnDataLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDataLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDataLayer.Location = new System.Drawing.Point(872, 139);
+            this.btnDataLayer.MaximumSize = new System.Drawing.Size(97, 34);
+            this.btnDataLayer.MinimumSize = new System.Drawing.Size(97, 34);
             this.btnDataLayer.Name = "btnDataLayer";
             this.btnDataLayer.Size = new System.Drawing.Size(97, 34);
             this.btnDataLayer.TabIndex = 31;
@@ -269,6 +271,8 @@
             this.btnBusinessLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBusinessLayer.Font = new System.Drawing.Font("Microsoft New Tai Lue", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBusinessLayer.Location = new System.Drawing.Point(986, 139);
+            this.btnBusinessLayer.MaximumSize = new System.Drawing.Size(97, 34);
+            this.btnBusinessLayer.MinimumSize = new System.Drawing.Size(97, 34);
             this.btnBusinessLayer.Name = "btnBusinessLayer";
             this.btnBusinessLayer.Size = new System.Drawing.Size(97, 34);
             this.btnBusinessLayer.TabIndex = 32;

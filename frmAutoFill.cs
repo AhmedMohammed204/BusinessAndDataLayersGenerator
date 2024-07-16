@@ -17,7 +17,7 @@ namespace BusinessAndDataLayersGenerator
         }
         
 
-        void _LoadData()
+        void _LoadTables()
         {
 
             List<string> list = clsDatabaseData.GetAllTables(cbDatabase.Text,txtUsername.Text, txtPassword.Text);
@@ -26,12 +26,12 @@ namespace BusinessAndDataLayersGenerator
 
         private void frmAutoFill_Load(object sender, EventArgs e)
         {
-
+            FindDatabases();
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            _LoadData();
+            //_LoadData();
         }
         public delegate void TableFoundEventHandler(bool IsFound, clsDatabaseData dbData = null);
         public event TableFoundEventHandler TableSelected;
@@ -63,6 +63,7 @@ namespace BusinessAndDataLayersGenerator
 
             return true;
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (!IsValidToSave())
@@ -80,10 +81,21 @@ namespace BusinessAndDataLayersGenerator
             this.Close();
         }
 
-        private void btnFindDatabase_Click(object sender, EventArgs e)
+
+        void FindDatabases()
         {
+
             List<string> list = clsDatabaseData.GetAllDatabases(txtUsername.Text, txtPassword.Text);
             clsDatabaseData.Fill_CB(list, cbDatabase);
+        }
+        private void btnFindDatabase_Click(object sender, EventArgs e)
+        {
+            FindDatabases();
+        }
+
+        private void cbDatabase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _LoadTables();
         }
     }
 }

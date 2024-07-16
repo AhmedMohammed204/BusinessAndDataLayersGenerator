@@ -47,6 +47,7 @@ namespace BusinessAndDataLayersGenerator
             {
                 case "bit":
                     return "bool";
+                case "Date":
                 case "date":
                 case "datetime":
                 case "datetime1":

@@ -1,16 +1,9 @@
-﻿using System;
+﻿using BusinessAndDataLayersGenerator;
+using Generator;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using BusinessAndDataLayersGenerator;
-using Generator;
 namespace BuisnessAndDataLayer_Code_Generator
 {
     public partial class frmMain : Form
@@ -35,14 +28,14 @@ namespace BuisnessAndDataLayer_Code_Generator
             txtTableName.Select();
             HasPK = false;
             ColumnsList = new List<clsColumn>();
-            
+
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
             _LoadData();
         }
 
-        
+
         private bool _IsValidColumn()
         {
             return !(string.IsNullOrEmpty(txtColumnName.Text));
@@ -62,7 +55,7 @@ namespace BuisnessAndDataLayer_Code_Generator
 
             string strIsNull = _CheckRadioButton();
             dataGridView1.Rows.Add(txtColumnName.Text, cbColumnDataType.Text, strIsNull, rbPK.Checked ? "PK" : null);
-            
+
             txtColumnName.Text = string.Empty;
 
             rbNotNull.Select();
@@ -73,7 +66,7 @@ namespace BuisnessAndDataLayer_Code_Generator
 
         private bool _IsValidToGenerate()
         {
-            if(AutoFillMode)
+            if (AutoFillMode)
             {
                 return true;
             }
@@ -95,13 +88,13 @@ namespace BuisnessAndDataLayer_Code_Generator
                 return false;
             }
 
-            if (dataGridView1.Rows.Count <= 1 )
+            if (dataGridView1.Rows.Count <= 1)
             {
                 MessageBox.Show("You can't Generate Without adding columns!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if(string.IsNullOrEmpty(txtDatabaseName.Text))
+            if (string.IsNullOrEmpty(txtDatabaseName.Text))
             {
                 MessageBox.Show("You can't Generate Without adding Database name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -114,7 +107,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
         private string GetDataLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
-            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList,txtDatabaseName.Text, cbDataAccess.Checked).ToString();
+            return clsGenerateDataLayer.Generate(TableName, TableSingleName, ColumnsList, txtDatabaseName.Text, cbDataAccess.Checked).ToString();
         }
         private string GetBusinessLayer(string TableName, string TableSingleName, List<clsColumn> ColumnsList)
         {
@@ -122,31 +115,28 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            
+
             TableName = txtTableName.Text;
             TableSinglName = txtTableSingleName.Text;
-            if(ColumnsList.Count == 0)
+            ColumnsList.Clear();
+            foreach (DataGridViewRow Row in dataGridView1.Rows)
             {
-
-                foreach (DataGridViewRow Row in dataGridView1.Rows)
-                {
-                    if (Row.Cells[0].Value == null)
-                        continue;
-                    string ColumnName = Row.Cells[0].Value.ToString();
-                    string DataType = Row.Cells[1].Value.ToString();
-                    bool IsNull = Row.Cells[2].Value != null;
-                    bool IsPK = Row.Cells[3].Value != null;
-                    if (IsPK) HasPK = true;
-                    ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
-                }
-
+                if (Row.Cells[0].Value == null)
+                    continue;
+                string ColumnName = Row.Cells[0].Value.ToString();
+                string DataType = Row.Cells[1].Value.ToString();
+                bool IsNull = Row.Cells[2].Value != null ;
+                bool IsPK = Row.Cells[3].Value != null;
+                if (IsPK) HasPK = true;
+                ColumnsList.Add(new clsColumn(ColumnName, DataType, IsNull, IsPK)); ;
             }
+
             if (!_IsValidToGenerate())
             {
                 ColumnsList.Clear();
                 return;
             }
-            if(clsColumn.GetPrimaryKeyColumn(ColumnsList) == null)
+            if (clsColumn.GetPrimaryKeyColumn(ColumnsList) == null)
             {
                 MessageBox.Show("Please put a PK");
                 return;
@@ -187,7 +177,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             txtTableName.Select();
         }
 
-        
+
 
         void FillDataGrid()
         {
@@ -196,11 +186,11 @@ namespace BuisnessAndDataLayer_Code_Generator
             string IsNull = default;
             foreach (clsColumn Column in ColumnsList)
             {
-                IsPK   = Column.IsPK ? "PK" : "";
-                IsNull = Column.AllowNull ? "null" : "";
+                IsPK = Column.IsPK ? "PK" : "";
+                IsNull = Column.AllowNull ? "null" : null;
                 dataGridView1.Rows.Add(Column.ColumnName, Column.ColumnDataType, IsNull, IsPK);
             }
-            
+
         }
         void PerformTableSelected(bool IsFound, clsDatabaseData dbData)
         {
@@ -213,6 +203,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             AutoFillMode = true;
             txtTableName.Text = dbData.TableName;
             txtTableSingleName.Text = dbData.TableSingleName;
+            txtDatabaseName.Text = dbData.DataBaseName;
             clsDatabaseData.ColumnsListAutoFill(dbData, ColumnsList);
             FillDataGrid();
 
@@ -224,7 +215,7 @@ namespace BuisnessAndDataLayer_Code_Generator
             frm.ShowDialog();
         }
 
-        
+
         void DisabilAllToolStrips()
         {
             deleteToolStripMenuItem.Enabled = false;
@@ -233,14 +224,14 @@ namespace BuisnessAndDataLayer_Code_Generator
         }
         void LoadContextMenuStrip()
         {
-            if(!IsDataGridHasRows())
+            if (!IsDataGridHasRows())
             {
                 DisabilAllToolStrips();
                 return;
             }
             deleteToolStripMenuItem.Enabled = true;
             DataGridViewRow dataRow = dataGridView1.CurrentRow;
-            
+
             if (string.IsNullOrEmpty(dataRow?.Cells[dataRow.Cells.Count - 1]?.Value.ToString()))
             {
                 setPKToolStripMenuItem.Enabled = true;
@@ -259,7 +250,7 @@ namespace BuisnessAndDataLayer_Code_Generator
         bool IsDataGridHasRows()
         {
             if (dataGridView1.Rows.Count <= 1)
-                return false; 
+                return false;
             return true;
         }
         private void removePKToolStripMenuItem_Click(object sender, EventArgs e)
